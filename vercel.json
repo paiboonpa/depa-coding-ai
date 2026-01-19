@@ -1,24 +1,17 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "api/*.js",
-            "use": "@vercel/node",
-            "config": { "includeFiles": ["prompt-master.html"] }
-        },
-        {
-            "src": "*.html",
-            "use": "@vercel/static"
+    "functions": {
+        "api/index.js": {
+            "includeFiles": "prompt-master.html"
         }
-    ],
-    "routes": [
+    },
+    "rewrites": [
         {
-            "src": "/api/prompt-master",
-            "dest": "/api/index.js"
+            "source": "/api/prompt-master",
+            "destination": "/api/index.js"
         },
         {
-            "src": "/(.*)",
-            "dest": "/$1"
+            "source": "/prompt-master.html",
+            "destination": "/api/index.js"
         }
     ]
 }
