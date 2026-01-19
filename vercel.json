@@ -1,16 +1,8 @@
 {
-    "functions": {
-        "api/index.js": {
-            "includeFiles": "prompt-master.html"
-        }
-    },
+    "version": 2,
     "rewrites": [
         {
-            "source": "/api/prompt-master",
-            "destination": "/api/index.js"
-        },
-        {
-            "source": "/prompt-master.html",
+            "source": "/(.*)",
             "destination": "/api/index.js"
         }
     ]

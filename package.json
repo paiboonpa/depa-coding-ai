@@ -1,0 +1,16 @@
+{
+    "name": "depa-coding-ai",
+    "version": "1.0.0",
+    "description": "DEPA Coding AI Game Platform",
+    "main": "api/index.js",
+    "scripts": {
+        "start": "node api/index.js"
+    },
+    "dependencies": {
+        "dotenv": "^16.6.1",
+        "express": "^5.2.1"
+    },
+    "engines": {
+        "node": ">=14"
+    }
+}
