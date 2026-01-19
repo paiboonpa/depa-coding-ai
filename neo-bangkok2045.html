@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neo-Bangkok 2045: Responsible Citizen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #0d1117;
+            color: #e6edf3;
+            overflow-x: hidden;
+        }
+        .cyber-border {
+            border: 1px solid #58a6ff;
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.2);
+        }
+        .cyber-text {
+            text-shadow: 0 0 5px #58a6ff;
+        }
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(88, 166, 255, 0.03) 50%, rgba(0,0,0,0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 10s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100%; }
+        }
+        .btn-choice {
+            transition: all 0.2s;
+        }
+        .btn-choice:hover {
+            transform: translateX(5px);
+            background-color: rgba(88, 166, 255, 0.1);
+            border-left: 4px solid #58a6ff;
+        }
+        .stat-bar {
+            transition: width 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 relative">
+    <div class="scanline"></div>
+
+    <!-- Main Container -->
+    <div class="w-full max-w-2xl cyber-border bg-[#161b22] bg-opacity-95 p-6 rounded-lg relative z-20 shadow-2xl">
+        
+        <!-- Header -->
+        <header class="mb-4 flex justify-between items-center border-b border-gray-700 pb-4">
+            <div>
+                <h1 class="text-2xl font-bold text-blue-400 tracking-wider">NEO-BANGKOK 2045</h1>
+                <p class="text-xs text-gray-400">MISSION: RESPONSIBLE CITIZEN</p>
+            </div>
+            <div class="text-right">
+                <p id="age-display" class="text-xl font-bold text-cyan-400">อายุ: 20 ปี</p>
+                <p class="text-xs text-gray-500">สถานะ: เริ่มต้นชีวิตทำงาน</p>
+            </div>
+        </header>
+
+        <!-- Stats Panel (Updated Metrics for RAI context) -->
+        <div class="grid grid-cols-2 gap-4 mb-6 text-sm">
+            <!-- Digital Literacy (Tech) -->
+            <div class="bg-[#0d1117] p-2 rounded border border-gray-700">
+                <div class="flex justify-between mb-1">
+                    <span class="text-blue-400">🧠 ความรู้ทัน AI (Digital Literacy)</span>
+                    <span id="val-tech" class="text-white">20</span>
+                </div>
+                <div class="w-full bg-gray-800 h-2 rounded-full">
+                    <div id="bar-tech" class="bg-blue-500 h-2 rounded-full stat-bar" style="width: 20%"></div>
+                </div>
+            </div>
+            <!-- Ethics (Sanity) -->
+            <div class="bg-[#0d1117] p-2 rounded border border-gray-700">
+                <div class="flex justify-between mb-1">
+                    <span class="text-green-400">❤️ จริยธรรม (Ethics)</span>
+                    <span id="val-sanity" class="text-white">80</span>
+                </div>
+                <div class="w-full bg-gray-800 h-2 rounded-full">
+                    <div id="bar-sanity" class="bg-green-500 h-2 rounded-full stat-bar" style="width: 80%"></div>
+                </div>
+            </div>
+            <!-- Stress (Anxiety) -->
+            <div class="bg-[#0d1117] p-2 rounded border border-gray-700">
+                <div class="flex justify-between mb-1">
+                    <span class="text-red-400">😨 ความเครียด (Stress)</span>
+                    <span id="val-anxiety" class="text-white">10</span>
+                </div>
+                <div class="w-full bg-gray-800 h-2 rounded-full">
+                    <div id="bar-anxiety" class="bg-red-500 h-2 rounded-full stat-bar" style="width: 10%"></div>
+                </div>
+            </div>
+            <!-- Credits (Money) -->
+            <div class="bg-[#0d1117] p-2 rounded border border-gray-700">
+                <div class="flex justify-between mb-1">
+                    <span class="text-yellow-400">💳 เงินออม (Credits)</span>
+                    <span id="val-money" class="text-white">1,000</span>
+                </div>
+                <div class="text-xs text-gray-500 text-right">บาท</div>
+            </div>
+        </div>
+
+        <!-- Game Content Area -->
+        <main id="game-screen" class="min-h-[300px] flex flex-col justify-between">
+            
+            <!-- Scenario Image Container -->
+            <div class="w-full h-[200px] mb-4 bg-gray-800 rounded overflow-hidden border border-gray-700 relative">
+                 <!-- Loading Spinner -->
+                 <div id="loading-spinner" class="absolute inset-0 flex flex-col items-center justify-center bg-[#0d1117] z-10">
+                    <svg class="animate-spin h-10 w-10 text-blue-500 mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span class="text-xs text-blue-500 animate-pulse">กำลังจำลองสถานการณ์...</span>
+                 </div>
+
+                 <!-- Image -->
+                 <img id="scenario-img" 
+                      src="" 
+                      alt="Scenario Visualization" 
+                      class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
+                 >
+            </div>
+
+            <!-- Story Text -->
+            <div class="mb-6">
+                <h2 id="scenario-title" class="text-xl font-bold text-white mb-3 border-l-4 border-blue-500 pl-3">
+                    บทนำ
+                </h2>
+                <!-- Added RAI Tag -->
+                <div id="rai-tag" class="inline-block px-2 py-1 mb-2 text-xs font-semibold rounded bg-blue-900 text-blue-200 hidden">
+                    RAI Concept: Fairness
+                </div>
+                <p id="scenario-desc" class="text-gray-300 leading-relaxed text-lg">
+                    ...กำลังโหลดข้อมูล...
+                </p>
+                
+                <!-- Result Box -->
+                <div id="result-message" class="hidden mt-4 p-4 bg-[#1f2937] border border-gray-600 rounded text-blue-200">
+                </div>
+            </div>
+
+            <!-- Choices -->
+            <div id="choices-container" class="space-y-3">
+                <!-- Buttons will be injected here -->
+            </div>
+
+            <!-- Next Button -->
+            <button id="next-btn" class="hidden w-full py-3 mt-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded transition-colors shadow-lg">
+                ไปต่อยังช่วงอายุถัดไป >>
+            </button>
+            
+            <!-- Restart Button -->
+            <button id="restart-btn" class="hidden w-full py-3 mt-4 bg-red-600 hover:bg-red-500 text-white font-bold rounded transition-colors shadow-lg" onclick="location.reload()">
+                เริ่มชีวิตใหม่ (Restart)
+            </button>
+        </main>
+    </div>
+
+    <script>
+        // --- Game Data & Config ---
+        const gameState = {
+            age: 20,
+            stats: {
+                tech: 20,    // Digital Literacy
+                sanity: 80,  // Ethics
+                anxiety: 10, // Stress
+                money: 1000
+            },
+            currentScenario: 0,
+            isGameOver: false
+        };
+
+        // Helper: Get Image from LoremFlickr
+        const getImgUrl = (keywords, id) => `https://loremflickr.com/600/200/${keywords}/all?lock=${id}`;
+
+        /* RESPONSIBLE AI SCENARIOS FOR HIGH SCHOOLERS
+           Themes: Fairness, Privacy, Transparency, Human Oversight, Misinformation, Consent
+        */
+        const scenarios = [
+            {
+                age: 20,
+                title: "งานแรกกับ AI ฝ่ายบุคคล",
+                raiTheme: "Fairness (ความยุติธรรมของข้อมูล)",
+                imgKeywords: "office,interview,robot",
+                desc: "คุณสมัครงานบริษัทใหญ่ แต่ได้รับอีเมลปฏิเสธทันทีจากระบบ AI ภายใน 1 วินาที! เพื่อนบอกว่า AI ของบริษัทนี้มักจะตัดชื่อคนที่มีที่อยู่ไกลจากที่ทำงานออกโดยอัตโนมัติ (Bias) เพื่อประหยัดค่ารถ ทั้งที่คุณมีความสามารถครบถ้วน",
+                choices: [
+                    {
+                        text: "แฮ็กระบบแก้ 'รหัสไปรษณีย์' ให้ดูเหมือนบ้านใกล้",
+                        type: "risk",
+                        effect: { tech: 15, sanity: -15, anxiety: 10, money: 20000 },
+                        result: "คุณได้งานทำและเงินเดือนดี! แต่คุณเริ่มต้นอาชีพด้วยการโกงระบบ (Unethical) และต้องคอยระวังไม่ให้ใครจับได้"
+                    },
+                    {
+                        text: "ยื่นเรื่องร้องเรียน (Appeal) ขอให้มนุษย์ตรวจสอบอีกครั้ง",
+                        type: "safe", // Considered the Responsible Choice
+                        effect: { tech: 5, sanity: 10, anxiety: 5, money: 15000 },
+                        result: "บริษัทยอมให้มนุษย์ดูใบสมัครของคุณและเรียกสัมภาษณ์! คุณได้งานด้วยความภาคภูมิใจ และช่วยให้บริษัทรู้ว่า AI มีปัญหา"
+                    },
+                    {
+                        text: "ช่างมันเถอะ ไปหางานอื่นที่ไม่ใช้ AI ก็ได้",
+                        type: "gray",
+                        effect: { tech: 0, sanity: 0, anxiety: -5, money: 8000 },
+                        result: "คุณได้งานร้านกาแฟเล็กๆ สบายใจดี แต่เงินเดือนน้อยกว่า และคุณพลาดโอกาสที่จะแก้ไขความไม่ยุติธรรม"
+                    }
+                ]
+            },
+            {
+                age: 23,
+                title: "แอปแต่งรูปหน้าแก่ยอดฮิต",
+                raiTheme: "Data Privacy (ความเป็นส่วนตัว)",
+                imgKeywords: "mobile,selfie,privacy",
+                desc: "มีแอปใหม่กำลังดัง! แค่อัปโหลดรูปหน้าเราเข้าไป AI จะเจนภาพตอนแก่ให้ดูสมจริงมาก แต่พอกดจะเล่น มีข้อความยาวๆ เด้งขึ้นมาขอสิทธิ์ 'เข้าถึงรูปภาพทั้งหมดในเครื่อง' และ 'นำใบหน้าไปใช้โฆษณาได้ตลอดไป'",
+                choices: [
+                    {
+                        text: "กดยอมรับ (Accept All) ไปเลย อยากเล่นแล้ว!",
+                        type: "risk",
+                        effect: { tech: 0, sanity: -10, anxiety: 5, money: 0 },
+                        result: "คุณได้รูปตลกๆ ไปโพสต์โซเชียล ยอดไลค์เพียบ! แต่หารู้ไม่ว่าข้อมูลใบหน้าของคุณถูกขายให้บริษัทอื่นไปแล้ว"
+                    },
+                    {
+                        text: "อ่านเงื่อนไขแล้วไม่เล่นดีกว่า ข้อมูลส่วนตัวสำคัญกว่า",
+                        type: "safe",
+                        effect: { tech: 10, sanity: 5, anxiety: 0, money: 0 },
+                        result: "เพื่อนๆ อาจจะมองว่าคุณตกเทรนด์ แต่คุณปลอดภัยจากการถูกนำข้อมูลไปใช้ในทางที่ผิด (Data Privacy Hero!)"
+                    },
+                    {
+                        text: "ใช้รูปดาราหรือรูปเพื่อนแกล้งเล่นแทน",
+                        type: "gray",
+                        effect: { tech: 5, sanity: -5, anxiety: 0, money: 0 },
+                        result: "คุณรอดตัว แต่คุณกำลังละเมิดสิทธิส่วนบุคคลของคนอื่นโดยไม่รู้ตัวนะ!"
+                    }
+                ]
+            },
+            {
+                age: 28,
+                title: "โปรเจกต์ด่วนกับ Generative AI",
+                raiTheme: "Transparency & Accountability (ความโปร่งใส)",
+                imgKeywords: "computer,typing,work",
+                desc: "หัวหน้าสั่งงานด่วนให้เขียนบทความส่งลูกค้าพรุ่งนี้เช้า! คุณทำไม่ทันแน่ๆ แต่ ChatGPT รุ่นใหม่เขียนให้ได้ใน 5 นาที",
+                choices: [
+                    {
+                        text: "ให้ AI เขียนให้ 100% แล้วส่งเลยโดยบอกว่าทำเอง",
+                        type: "risk",
+                        effect: { tech: 5, sanity: -20, anxiety: 15, money: 5000 },
+                        result: "งานเสร็จทันเวลา แต่ลูกค้าจับได้ว่าข้อมูลมั่ว (Hallucination) คุณโดนตำหนิหนักเพราะขาดความรับผิดชอบ"
+                    },
+                    {
+                        text: "ใช้ AI ช่วยร่างโครง แล้วตรวจสอบ/เขียนแก้ด้วยตัวเอง",
+                        type: "safe",
+                        effect: { tech: 10, sanity: 5, anxiety: 5, money: 5000 },
+                        result: "งานออกมาดีมาก! การทำงานร่วมกับ AI (Human-in-the-loop) ทำให้งานเร็วขึ้นและยังมีคุณภาพที่คุณรับประกันได้"
+                    },
+                    {
+                        text: "ไม่ใช้ AI เลย ยอมอดหลับอดนอนทำเองทั้งหมด",
+                        type: "gray",
+                        effect: { tech: -5, sanity: 5, anxiety: 20, money: 5000 },
+                        result: "คุณทำสำเร็จด้วยฝีมือตัวเองล้วนๆ ภูมิใจนะ แต่สุขภาพแย่ลงและทำงานช้ากว่าเพื่อนร่วมงานคนอื่น"
+                    }
+                ]
+            },
+            {
+                age: 32,
+                title: "คุณหมอ AI วินิจฉัยโรค",
+                raiTheme: "Human Oversight (การกำกับดูแลโดยมนุษย์)",
+                imgKeywords: "hospital,doctor,tablet",
+                desc: "คุณปวดท้องหนักมาก ไปคลินิกที่มี 'หมอ AI' วินิจฉัยว่าคุณเป็นแค่อาหารเป็นพิษและจัดยาให้ แต่คุณรู้สึกว่าอาการมันแปลกกว่านั้น",
+                choices: [
+                    {
+                        text: "เชื่อ AI 100% มันประมวลผลข้อมูลแม่นกว่าคน",
+                        type: "risk",
+                        effect: { tech: 5, sanity: 0, anxiety: -5, money: -2000 },
+                        result: "คุณกินยาแล้วไม่หาย! ปรากฎว่าเป็นไส้ติ่งอักเสบ เกือบแตกตายเพราะเชื่อระบบอัตโนมัติมากเกินไป (Over-reliance)"
+                    },
+                    {
+                        text: "ขอคุยกับหมอที่เป็นมนุษย์เพื่อยืนยันอีกครั้ง",
+                        type: "safe",
+                        effect: { tech: 5, sanity: 5, anxiety: 5, money: -5000 },
+                        result: "หมอคนตรวจพบความผิดปกติที่ AI มองข้าม คุณได้รับการรักษาทันท่วงที เทคโนโลยีดีแต่ต้องมีคนช่วยดู!"
+                    },
+                    {
+                        text: "ไปซื้อยาสมุนไพรกินเองตามเน็ต",
+                        type: "gray",
+                        effect: { tech: -5, sanity: -5, anxiety: 10, money: -500 },
+                        result: "เสี่ยงมาก! นอกจากไม่หายแล้วยังอาจแพ้ยา การหาข้อมูลสุขภาพต้องระวังแหล่งที่มา (Misinformation)"
+                    }
+                ]
+            },
+            {
+                age: 38,
+                title: "ข่าวลือ Deepfake",
+                raiTheme: "Media Literacy (การรู้เท่าทันสื่อ)",
+                imgKeywords: "news,tv,fake",
+                desc: "มีคลิปวิดีโอแชร์ว่อนเน็ต เป็นภาพนักการเมืองชื่อดังกำลังพูดดูถูกคนจน ทำให้คนโกรธแค้นมาก แต่สังเกตดีๆ ปากขยับไม่ค่อยตรงกับเสียง",
+                choices: [
+                    {
+                        text: "แชร์ต่อทันทีด้วยความโมโห ต้องให้โลกรู้!",
+                        type: "risk",
+                        effect: { tech: 0, sanity: -10, anxiety: 10, money: 0 },
+                        result: "คุณกลายเป็นเครื่องมือกระจายข่าวปลอม (Fake News) มารู้ทีหลังว่าเป็น Deepfake หน้าแตกและเสียเครดิต"
+                    },
+                    {
+                        text: "ตรวจสอบจากสำนักข่าวที่น่าเชื่อถือก่อนแชร์",
+                        type: "safe",
+                        effect: { tech: 10, sanity: 10, anxiety: 0, money: 0 },
+                        result: "ยอดเยี่ยม! คุณพบว่ามันคือคลิปตัดต่อ คุณช่วยเตือนเพื่อนๆ และหยุดวงจรความเกลียดชังได้"
+                    },
+                    {
+                        text: "เข้าไปด่าในคอมเมนต์เอามันส์ไว้ก่อน",
+                        type: "gray",
+                        effect: { tech: 0, sanity: -5, anxiety: 5, money: 0 },
+                        result: "คุณเพิ่ม Toxic ในโลกออนไลน์โดยไม่จำเป็น และทิ้ง Digital Footprint แย่ๆ ไว้ให้ตัวเองในอนาคต"
+                    }
+                ]
+            },
+            {
+                age: 45,
+                title: "กู้เงินกับอัลกอริทึม",
+                raiTheme: "Explainability (สิทธิที่จะได้รับคำอธิบาย)",
+                imgKeywords: "bank,money,loan",
+                desc: "คุณต้องการกู้เงินซ่อมบ้าน แต่แอปธนาคารแจ้งว่า 'ไม่อนุมัติ' โดยไม่บอกเหตุผล ทั้งที่คุณเครดิตดีมาตลอด",
+                choices: [
+                    {
+                        text: "จ้างแฮ็กเกอร์แก้คะแนนเครดิตในระบบ",
+                        type: "risk",
+                        effect: { tech: 10, sanity: -15, anxiety: 20, money: -10000 },
+                        result: "คุณได้เงินมาแบบผิดกฎหมาย ต้องอยู่อย่างหวาดระแวงว่าจะโดนจับเข้าคุกไซเบอร์เมื่อไหร่"
+                    },
+                    {
+                        text: "ใช้สิทธิ์ตามกฎหมาย ขอคำอธิบาย (Explanation) จากธนาคาร",
+                        type: "safe",
+                        effect: { tech: 10, sanity: 5, anxiety: 5, money: 0 },
+                        result: "ธนาคารตรวจสอบพบว่าข้อมูลในระบบผิดพลาด! คุณได้รับอนุมัติและช่วยให้ระบบโปร่งใสขึ้น"
+                    },
+                    {
+                        text: "ยอมแพ้ ไปกู้เงินนอกระบบดอกเบี้ยโหด",
+                        type: "gray",
+                        effect: { tech: 0, sanity: -5, anxiety: 25, money: 50000 },
+                        result: "ได้เงินมาแต่ชีวิตพังเพราะดอกเบี้ยและแก๊งทวงหนี้ การหนีปัญหา AI ด้วยวิธีนี้ไม่คุ้มเลย"
+                    }
+                ]
+            },
+            {
+                age: 50,
+                title: "ตำรวจ AI ทำนายอาชญากรรม",
+                raiTheme: "Bias & Discrimination (อคติและการเลือกปฏิบัติ)",
+                imgKeywords: "police,cctv,city",
+                desc: "เมืองเริ่มใช้ระบบ 'ทำนายอาชญากรรม' (Predictive Policing) และส่งตำรวจไปเฝ้าหน้าบ้านเพื่อนบ้านของคุณเพียงเพราะเขาอยู่ในกลุ่ม 'ความเสี่ยงสูง' ตามสถิติ",
+                choices: [
+                    {
+                        text: "สนับสนุนระบบ ปลอดภัยไว้ก่อน คนกลุ่มนั้นน่ากลัวอยู่แล้ว",
+                        type: "risk",
+                        effect: { tech: 0, sanity: -10, anxiety: -5, money: 0 },
+                        result: "คุณสนับสนุนการเลือกปฏิบัติ (Discrimination) วันหนึ่งระบบอาจจะชี้ว่าคุณเป็นคนร้ายบ้างก็ได้"
+                    },
+                    {
+                        text: "ร่วมลงชื่อคัดค้านการใช้ AI ละเมิดสิทธิ์",
+                        type: "safe",
+                        effect: { tech: 5, sanity: 15, anxiety: 5, money: 0 },
+                        result: "พลังสังคมช่วยให้เมืองทบทวนนโยบาย คุณได้ยืนหยัดเพื่อความเท่าเทียม (Justice)"
+                    },
+                    {
+                        text: "ไม่ยุ่งดีกว่า ย้ายบ้านหนีไปโซนคนรวย",
+                        type: "gray",
+                        effect: { tech: 0, sanity: 0, anxiety: 0, money: -20000 },
+                        result: "คุณใช้เงินแก้ปัญหาเฉพาะหน้า แต่ปัญหาสังคมยังคงอยู่และรุนแรงขึ้นเรื่อยๆ"
+                    }
+                ]
+            },
+            {
+                age: 55,
+                title: "ขายเสียงให้ AI",
+                raiTheme: "Consent & Intellectual Property (ความยินยอมและลิขสิทธิ์)",
+                imgKeywords: "microphone,sound,recording",
+                desc: "บริษัท Tech ยักษ์ใหญ่ติดต่อขอซื้อ 'เสียง' ของคุณไปสร้าง AI Voice Clone เพื่อใช้ใน Call Center ทั่วโลก",
+                choices: [
+                    {
+                        text: "ขายสิทธิ์ขาดไปเลย (Full Buyout) เอาเงินก้อนโต",
+                        type: "risk",
+                        effect: { tech: 0, sanity: -10, anxiety: 5, money: 50000 },
+                        result: "คุณรวย! แต่เสียงของคุณถูกเอาไปใช้หลอกขายของและด่าลูกค้า คุณรู้สึกผิดทุกครั้งที่ได้ยินเสียงตัวเอง"
+                    },
+                    {
+                        text: "ขายแบบกำหนดสัญญา (Licensing) ห้ามใช้ในทางที่ผิด",
+                        type: "safe",
+                        effect: { tech: 10, sanity: 5, anxiety: 0, money: 20000 },
+                        result: "คุณได้เงินและยังควบคุมสิทธิ์ในตัวตนของคุณได้ (Data Ownership) นี่คือการทำธุรกิจยุค AI ที่ฉลาด"
+                    },
+                    {
+                        text: "ไม่ขายเด็ดขาด กลัวโดน Deepfake",
+                        type: "gray",
+                        effect: { tech: 0, sanity: 5, anxiety: 0, money: 0 },
+                        result: "ปลอดภัยที่สุด แต่ก็เสียดายโอกาสสร้างรายได้จากสินทรัพย์ดิจิทัลของคุณ"
+                    }
+                ]
+            },
+            {
+                age: 60,
+                title: "ระบบเมืองอัจฉริยะล่ม",
+                raiTheme: "Robustness & Safety (ความทนทานและความปลอดภัย)",
+                imgKeywords: "blackout,traffic,chaos",
+                desc: "เกิดบั๊กในระบบ AI ควบคุมไฟจราจรและไฟฟ้า ทั้งเมืองเป็นอัมพาต! (System Failure) ทุกอย่างที่เชื่อมต่อเน็ตใช้ไม่ได้เลย",
+                choices: [
+                    {
+                        text: "ใช้อุปกรณ์ Smart Home พยายามกู้ระบบเอง",
+                        type: "risk",
+                        effect: { tech: 10, sanity: -5, anxiety: 15, money: 0 },
+                        result: "ระบบมันซับซ้อนเกินไป! อุปกรณ์คุณพังเสียหายเพิ่ม ความมั่นใจในเทคโนโลยีลดฮวบ"
+                    },
+                    {
+                        text: "ใช้ทักษะเอาตัวรอดแบบไม่ง้อเน็ต และช่วยเพื่อนบ้าน",
+                        type: "safe",
+                        effect: { tech: -5, sanity: 20, anxiety: -5, money: 0 },
+                        result: "ในยามวิกฤต 'น้ำใจมนุษย์' สำคัญกว่า AI คุณกลายเป็นผู้นำชุมชนจนกว่าไฟจะมา"
+                    },
+                    {
+                        text: "ขังตัวเองในบ้าน รอให้เจ้าหน้าที่มาแก้",
+                        type: "gray",
+                        effect: { tech: 0, sanity: -5, anxiety: 10, money: 0 },
+                        result: "คุณปลอดภัยแต่โดดเดี่ยว การพึ่งพาเทคโนโลยี 100% ทำให้คุณทำอะไรไม่ถูกเมื่อมันพัง"
+                    }
+                ]
+            },
+            {
+                age: 65,
+                title: "บทสรุป: มรดกสู่คนรุ่นหลัง",
+                raiTheme: "AI Alignment (การปรับ AI ให้เข้ากับมนุษย์)",
+                imgKeywords: "sunset,teaching,future",
+                desc: "คุณเกษียณแล้ว โลกเปลี่ยนไปมาก คุณอยากฝากอะไรไว้ให้หลานๆ หรือเด็กยุคใหม่?",
+                choices: [
+                    {
+                        text: "สนับสนุนการพัฒนา AI ให้ฉลาดล้ำเลิศที่สุด (Superintelligence)",
+                        type: "risk",
+                        effect: { tech: 20, sanity: -10, anxiety: 0, money: 0 },
+                        result: "เทคโนโลยีก้าวไกล แต่อาจจะทิ้งมนุษย์ไว้ข้างหลัง ถ้าไม่มีการควบคุมที่ดี"
+                    },
+                    {
+                        text: "สอนให้เด็กๆ 'รู้เท่าทัน' และใช้ AI อย่างมีจริยธรรม",
+                        type: "safe",
+                        effect: { tech: 10, sanity: 20, anxiety: -10, money: 0 },
+                        result: "นี่คือมรดกที่ยั่งยืนที่สุด การสร้าง 'พลเมืองคุณภาพ' สำคัญกว่าการสร้างหุ่นยนต์ที่ฉลาดที่สุด"
+                    },
+                    {
+                        text: "บอกให้เด็กๆ หนีไปอยู่ป่า เลิกใช้เทคโนโลยี",
+                        type: "gray",
+                        effect: { tech: -20, sanity: 10, anxiety: 0, money: 0 },
+                        result: "อาจจะสงบสุข แต่เป็นไปได้ยากในโลกความจริง การหนีไม่ใช่ทางแก้ปัญหาที่ยั่งยืน"
+                    }
+                ]
+            }
+        ];
+
+        // --- Core Functions ---
+
+        function updateUI() {
+            // Update Text
+            document.getElementById('age-display').innerText = `อายุ: ${gameState.age} ปี`;
+            document.getElementById('val-tech').innerText = gameState.stats.tech;
+            document.getElementById('val-sanity').innerText = gameState.stats.sanity;
+            document.getElementById('val-anxiety').innerText = gameState.stats.anxiety;
+            document.getElementById('val-money').innerText = gameState.stats.money.toLocaleString();
+
+            // Update Bars
+            document.getElementById('bar-tech').style.width = `${Math.min(gameState.stats.tech, 100)}%`;
+            document.getElementById('bar-sanity').style.width = `${Math.max(0, Math.min(gameState.stats.sanity, 100))}%`;
+            document.getElementById('bar-anxiety').style.width = `${Math.min(gameState.stats.anxiety, 100)}%`;
+            
+            // Color Logic
+            if (gameState.stats.sanity < 30) document.getElementById('bar-sanity').className = "bg-red-600 h-2 rounded-full stat-bar";
+            else document.getElementById('bar-sanity').className = "bg-green-500 h-2 rounded-full stat-bar";
+
+            if (gameState.stats.anxiety > 70) document.getElementById('bar-anxiety').className = "bg-red-600 h-2 rounded-full stat-bar";
+            else document.getElementById('bar-anxiety').className = "bg-yellow-500 h-2 rounded-full stat-bar";
+            
+            // Money Color
+            if (gameState.stats.money < 0) document.getElementById('val-money').className = "text-red-400";
+            else document.getElementById('val-money').className = "text-white";
+        }
+
+        function checkGameOver() {
+            if (gameState.stats.sanity <= 0) {
+                return "GAME OVER: คุณสูญเสียจริยธรรมจนกลายเป็นอาชญากรไซเบอร์ (Lost Humanity)";
+            }
+            if (gameState.stats.anxiety >= 100) {
+                return "GAME OVER: คุณเครียดเกินไปจนต้องเข้าบำบัด Digital Detox (Burnout)";
+            }
+            if (gameState.stats.money < -50000) {
+                return "GAME OVER: คุณล้มละลายและถูกแบนจากระบบการเงิน (Bankrupt)";
+            }
+            return null;
+        }
+
+        function renderScenario() {
+            const scenario = scenarios[gameState.currentScenario];
+            const titleEl = document.getElementById('scenario-title');
+            const descEl = document.getElementById('scenario-desc');
+            const raiTagEl = document.getElementById('rai-tag');
+            const imgEl = document.getElementById('scenario-img');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const choicesContainer = document.getElementById('choices-container');
+            const resultMsg = document.getElementById('result-message');
+            const nextBtn = document.getElementById('next-btn');
+
+            // --- Enhanced Image Loading Logic ---
+            loadingSpinner.classList.remove('hidden');
+            imgEl.classList.add('opacity-0');
+            imgEl.src = ""; 
+
+            setTimeout(() => {
+                imgEl.src = getImgUrl(scenario.imgKeywords, gameState.currentScenario + 200); // Changed seed
+                
+                imgEl.onload = () => {
+                    loadingSpinner.classList.add('hidden');
+                    imgEl.classList.remove('opacity-0');
+                };
+
+                imgEl.onerror = () => {
+                    loadingSpinner.classList.remove('hidden'); // Keep spinning on error
+                    imgEl.classList.add('opacity-0');
+                };
+            }, 50);
+
+            // Reset view
+            titleEl.innerText = `${scenario.title}`;
+            
+            // Show RAI Theme Tag
+            raiTagEl.innerText = `💡 RAI Concept: ${scenario.raiTheme}`;
+            raiTagEl.classList.remove('hidden');
+
+            descEl.innerText = scenario.desc;
+            choicesContainer.innerHTML = '';
+            resultMsg.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+
+            // Generate Buttons
+            scenario.choices.forEach((choice, index) => {
+                const btn = document.createElement('button');
+                let borderClass = "border-gray-600";
+                
+                // Color coding for educational purposes
+                if(choice.type === "risk") { // Unethical/Risk
+                    borderClass = "border-red-500 text-red-100 hover:bg-red-900/50";
+                }
+                if(choice.type === "safe") { // Ethical/Responsible
+                    borderClass = "border-green-500 text-green-100 hover:bg-green-900/50";
+                }
+                if(choice.type === "gray") { // Avoidance/Neutral
+                    borderClass = "border-gray-500 text-gray-200 hover:bg-gray-700/50";
+                }
+
+                btn.className = `w-full text-left p-4 rounded border ${borderClass} bg-[#161b22] btn-choice mb-3 text-sm md:text-base shadow-sm`;
+                btn.innerHTML = `<span class="font-bold mr-2">${choice.text}</span>`;
+                
+                // Show cost/gain
+                if(choice.effect.money != 0) {
+                    const moneyText = choice.effect.money > 0 ? `+${choice.effect.money.toLocaleString()}` : `${choice.effect.money.toLocaleString()}`;
+                    const color = choice.effect.money > 0 ? "text-green-400" : "text-red-400";
+                    btn.innerHTML += ` <span class="text-xs ${color} float-right mt-1">(${moneyText} ฿)</span>`;
+                }
+
+                btn.onclick = () => selectChoice(choice);
+                
+                choicesContainer.appendChild(btn);
+            });
+        }
+
+        function selectChoice(choice) {
+            // Apply Effects
+            gameState.stats.tech += choice.effect.tech || 0;
+            gameState.stats.sanity += choice.effect.sanity || 0;
+            gameState.stats.anxiety += choice.effect.anxiety || 0;
+            gameState.stats.money += choice.effect.money || 0;
+
+            // Clamp Values
+            gameState.stats.sanity = Math.min(100, gameState.stats.sanity);
+            gameState.stats.anxiety = Math.max(0, gameState.stats.anxiety); 
+
+            updateUI();
+
+            // Show Result
+            const choicesContainer = document.getElementById('choices-container');
+            choicesContainer.innerHTML = ''; // Clear buttons
+
+            const resultMsg = document.getElementById('result-message');
+            // Add educational feedback styling
+            let feedbackColor = "text-blue-200";
+            if(choice.type === "risk") feedbackColor = "text-red-300";
+            if(choice.type === "safe") feedbackColor = "text-green-300";
+
+            resultMsg.innerHTML = `
+            <h3 class="font-bold text-white mb-2 text-lg">ผลลัพธ์:</h3>
+            <p class="mb-4 text-base ${feedbackColor}">${choice.result}</p>
+            <div class="text-xs text-gray-400 border-t border-gray-600 pt-2 flex flex-wrap gap-2">
+                <span>🧠 Tech: ${choice.effect.tech > 0 ? '+' : ''}${choice.effect.tech}</span>
+                <span>❤️ Ethics: ${choice.effect.sanity > 0 ? '+' : ''}${choice.effect.sanity}</span>
+                <span>😨 Stress: ${choice.effect.anxiety > 0 ? '+' : ''}${choice.effect.anxiety}</span>
+                <span>💳 Money: ${choice.effect.money > 0 ? '+' : ''}${choice.effect.money}</span>
+            </div>`;
+            resultMsg.classList.remove('hidden');
+
+            // Check Game Over
+            const gameOverReason = checkGameOver();
+            if (gameOverReason) {
+                document.getElementById('scenario-title').innerText = "จบเกม (Game Over)";
+                document.getElementById('rai-tag').classList.add('hidden');
+                document.getElementById('scenario-desc').innerText = gameOverReason;
+                document.getElementById('scenario-img').src = "https://loremflickr.com/600/200/glitch,error/all";
+                document.getElementById('restart-btn').classList.remove('hidden');
+                return;
+            }
+
+            // Check if Last Scenario
+            if (gameState.currentScenario >= scenarios.length - 1) {
+                document.getElementById('next-btn').innerText = "ดูบทสรุปคะแนนความเป็นพลเมือง (Final Score)";
+            }
+
+            // Show Next Button
+            document.getElementById('next-btn').classList.remove('hidden');
+            document.getElementById('next-btn').onclick = nextScenario;
+        }
+
+        function nextScenario() {
+            gameState.currentScenario++;
+            
+            // Check if End of Game
+            if (gameState.currentScenario >= scenarios.length) {
+                showEnding();
+                return;
+            }
+
+            // Time Jump Logic
+            const nextAge = scenarios[gameState.currentScenario].age;
+            gameState.age = nextAge;
+
+            updateUI();
+            renderScenario();
+        }
+
+        function showEnding() {
+            const titleEl = document.getElementById('scenario-title');
+            const descEl = document.getElementById('scenario-desc');
+            const raiTagEl = document.getElementById('rai-tag');
+            const imgEl = document.getElementById('scenario-img');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const resultMsg = document.getElementById('result-message');
+            const nextBtn = document.getElementById('next-btn');
+            const restartBtn = document.getElementById('restart-btn');
+
+            resultMsg.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            raiTagEl.classList.add('hidden');
+            restartBtn.classList.remove('hidden');
+
+            titleEl.innerText = "บทสรุป: คุณคือพลเมืองแบบไหน?";
+            
+            let endingText = "";
+            let endingKeywords = "";
+            
+            // Evaluated based on Ethics (Sanity) and Digital Literacy (Tech)
+            if (gameState.stats.sanity > 70 && gameState.stats.tech > 60) {
+                endingText = "🏆 The AI Guardian (ผู้พิทักษ์จริยธรรม AI)\nคุณคือตัวอย่างของพลเมืองดิจิทัลที่สมบูรณ์แบบ! คุณมีความรู้เท่าทันเทคโนโลยี (High Literacy) และใช้มันอย่างมีคุณธรรม (High Ethics) คุณไม่เพียงแค่เอาตัวรอด แต่ยังช่วยสร้างสังคมที่ AI และมนุษย์อยู่ร่วมกันได้อย่างยุติธรรม";
+                endingKeywords = "hero,future,light";
+            } else if (gameState.stats.sanity > 70) {
+                endingText = "🌿 The Humanist (นักมนุษยนิยม)\nคุณให้ความสำคัญกับความเป็นมนุษย์และความถูกต้องเหนือสิ่งอื่นใด แม้คุณอาจจะไม่ได้เก่งเทคโนโลยีที่สุด แต่คุณคือเครื่องเตือนใจว่า 'จิตใจ' สำคัญกว่า 'อัลกอริทึม'";
+                endingKeywords = "nature,handshake,people";
+            } else if (gameState.stats.tech > 70) {
+                endingText = "🤖 The Tech Opportunist (นักฉวยโอกาสทางเทคนิค)\nคุณเก่งมาก! คุณรู้ทางหนีทีไล่และใช้ประโยชน์จาก AI ได้เต็มที่ แต่ระวังนะ... บางครั้งคุณอาจเผลอละเลยความถูกต้องเพื่อผลประโยชน์ส่วนตัว";
+                endingKeywords = "cyberpunk,money,hacker";
+            } else {
+                endingText = "😐 The Survivor (ผู้รอดชีวิต)\nคุณผ่านยุค AI มาได้แบบทุลักทุเล โลกมันเปลี่ยนเร็วและซับซ้อนจริงๆ อย่าลืมหาความรู้เพิ่มเติมเรื่อง Responsible AI เพื่อเตรียมพร้อมสำหรับอนาคตนะ!";
+                endingKeywords = "crowd,walking,city";
+            }
+
+            descEl.innerText = endingText;
+            
+            // Set ending image with loading
+            loadingSpinner.classList.remove('hidden');
+            imgEl.classList.add('opacity-0');
+            imgEl.src = getImgUrl(endingKeywords, 999);
+            imgEl.onload = () => {
+                loadingSpinner.classList.add('hidden');
+                imgEl.classList.remove('opacity-0');
+            };
+            imgEl.onerror = () => {
+                loadingSpinner.classList.remove('hidden');
+                imgEl.classList.add('opacity-0');
+            };
+        }
+
+        // Start Game
+        renderScenario();
+        updateUI();
+
+    </script>
+</body>
+</html>

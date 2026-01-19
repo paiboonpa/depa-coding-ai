@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #fff8e1 60%, #FFA800 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #FFA800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+            font-weight: 700;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        p {
+            font-size: 1.3rem;
+            color: #555;
+            margin-bottom: 50px;
+            text-shadow: none;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .links-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .link-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-decoration: none;
+            color: #FFA800;
+            font-size: 1.4rem;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 2px solid #FFA800;
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .link-card:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        .link-card:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .link-card:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .link-card:nth-child(4) {
+            animation-delay: 0.8s;
+        }
+
+        .logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .logo-img {
+            height: 80px;
+            width: auto;
+            object-fit: contain;
+            filter: none;
+            background: white;
+            padding: 12px;
+            border-radius: 16px;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+
+        .link-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 168, 0, 0.2);
+            background: #FFA800;
+            color: white;
+            border-color: #FFA800;
+        }
+
+        .link-card:active {
+            transform: translateY(-5px) scale(1.02);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            p {
+                font-size: 1.1rem;
+            }
+
+            .link-card {
+                font-size: 1.2rem;
+                padding: 30px 20px;
+            }
+
+            .links-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logos">
+            <img src="depa.png" alt="DEPA Logo" class="logo-img">
+            <img src="logo_black.png" alt="Partner Logo" class="logo-img">
+        </div>
+        <h1>✨ Welcome ✨</h1>
+        <p>เลือกไปยังหน้าที่คุณสนใจ</p>
+        <div class="links-container">
+            <a href="god-mode.html" class="link-card">🎮 God Mode</a>
+            <a href="neo-bangkok2045.html" class="link-card">🌆 Neo Bangkok 2045</a>
+            <a href="scammer-catch.html" class="link-card">🛡️ Scammer Catch</a>
+            <a href="prompt-master.html" class="link-card">✍️ Prompt Master</a>
+        </div>
+    </div>
+</body>
+
+</html>
