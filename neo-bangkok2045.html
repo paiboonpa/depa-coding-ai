@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neo-Bangkok 2045: Responsible Citizen</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
     <style>
         body {
             font-family: 'Kanit', sans-serif;
@@ -13,47 +15,60 @@
             color: #e6edf3;
             overflow-x: hidden;
         }
+
         .cyber-border {
             border: 1px solid #58a6ff;
             box-shadow: 0 0 15px rgba(88, 166, 255, 0.2);
         }
+
         .cyber-text {
             text-shadow: 0 0 5px #58a6ff;
         }
+
         .scanline {
             width: 100%;
             height: 100px;
             z-index: 10;
-            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(88, 166, 255, 0.03) 50%, rgba(0,0,0,0) 100%);
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(88, 166, 255, 0.03) 50%, rgba(0, 0, 0, 0) 100%);
             opacity: 0.1;
             position: absolute;
             bottom: 100%;
             animation: scanline 10s linear infinite;
             pointer-events: none;
         }
+
         @keyframes scanline {
-            0% { bottom: 100%; }
-            100% { bottom: -100%; }
+            0% {
+                bottom: 100%;
+            }
+
+            100% {
+                bottom: -100%;
+            }
         }
+
         .btn-choice {
             transition: all 0.2s;
         }
+
         .btn-choice:hover {
             transform: translateX(5px);
             background-color: rgba(88, 166, 255, 0.1);
             border-left: 4px solid #58a6ff;
         }
+
         .stat-bar {
             transition: width 0.5s ease-in-out;
         }
     </style>
 </head>
+
 <body class="min-h-screen flex flex-col items-center justify-center p-4 relative">
     <div class="scanline"></div>
 
     <!-- Main Container -->
     <div class="w-full max-w-2xl cyber-border bg-[#161b22] bg-opacity-95 p-6 rounded-lg relative z-20 shadow-2xl">
-        
+
         <!-- Header -->
         <header class="mb-4 flex justify-between items-center border-b border-gray-700 pb-4">
             <div>
@@ -110,24 +125,26 @@
 
         <!-- Game Content Area -->
         <main id="game-screen" class="min-h-[300px] flex flex-col justify-between">
-            
+
             <!-- Scenario Image Container -->
             <div class="w-full h-[200px] mb-4 bg-gray-800 rounded overflow-hidden border border-gray-700 relative">
-                 <!-- Loading Spinner -->
-                 <div id="loading-spinner" class="absolute inset-0 flex flex-col items-center justify-center bg-[#0d1117] z-10">
-                    <svg class="animate-spin h-10 w-10 text-blue-500 mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <!-- Loading Spinner -->
+                <div id="loading-spinner"
+                    class="absolute inset-0 flex flex-col items-center justify-center bg-[#0d1117] z-10">
+                    <svg class="animate-spin h-10 w-10 text-blue-500 mb-2" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
                     </svg>
                     <span class="text-xs text-blue-500 animate-pulse">กำลังจำลองสถานการณ์...</span>
-                 </div>
+                </div>
 
-                 <!-- Image -->
-                 <img id="scenario-img" 
-                      src="" 
-                      alt="Scenario Visualization" 
-                      class="w-full h-full object-cover opacity-0 transition-opacity duration-500"
-                 >
+                <!-- Image -->
+                <img id="scenario-img" src="" alt="Scenario Visualization"
+                    class="w-full h-full object-cover opacity-0 transition-opacity duration-500">
             </div>
 
             <!-- Story Text -->
@@ -136,15 +153,17 @@
                     บทนำ
                 </h2>
                 <!-- Added RAI Tag -->
-                <div id="rai-tag" class="inline-block px-2 py-1 mb-2 text-xs font-semibold rounded bg-blue-900 text-blue-200 hidden">
+                <div id="rai-tag"
+                    class="inline-block px-2 py-1 mb-2 text-xs font-semibold rounded bg-blue-900 text-blue-200 hidden">
                     RAI Concept: Fairness
                 </div>
                 <p id="scenario-desc" class="text-gray-300 leading-relaxed text-lg">
                     ...กำลังโหลดข้อมูล...
                 </p>
-                
+
                 <!-- Result Box -->
-                <div id="result-message" class="hidden mt-4 p-4 bg-[#1f2937] border border-gray-600 rounded text-blue-200">
+                <div id="result-message"
+                    class="hidden mt-4 p-4 bg-[#1f2937] border border-gray-600 rounded text-blue-200">
                 </div>
             </div>
 
@@ -154,12 +173,15 @@
             </div>
 
             <!-- Next Button -->
-            <button id="next-btn" class="hidden w-full py-3 mt-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded transition-colors shadow-lg">
+            <button id="next-btn"
+                class="hidden w-full py-3 mt-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded transition-colors shadow-lg">
                 ไปต่อยังช่วงอายุถัดไป >>
             </button>
-            
+
             <!-- Restart Button -->
-            <button id="restart-btn" class="hidden w-full py-3 mt-4 bg-red-600 hover:bg-red-500 text-white font-bold rounded transition-colors shadow-lg" onclick="location.reload()">
+            <button id="restart-btn"
+                class="hidden w-full py-3 mt-4 bg-red-600 hover:bg-red-500 text-white font-bold rounded transition-colors shadow-lg"
+                onclick="location.reload()">
                 เริ่มชีวิตใหม่ (Restart)
             </button>
         </main>
@@ -472,14 +494,14 @@
             document.getElementById('bar-tech').style.width = `${Math.min(gameState.stats.tech, 100)}%`;
             document.getElementById('bar-sanity').style.width = `${Math.max(0, Math.min(gameState.stats.sanity, 100))}%`;
             document.getElementById('bar-anxiety').style.width = `${Math.min(gameState.stats.anxiety, 100)}%`;
-            
+
             // Color Logic
             if (gameState.stats.sanity < 30) document.getElementById('bar-sanity').className = "bg-red-600 h-2 rounded-full stat-bar";
             else document.getElementById('bar-sanity').className = "bg-green-500 h-2 rounded-full stat-bar";
 
             if (gameState.stats.anxiety > 70) document.getElementById('bar-anxiety').className = "bg-red-600 h-2 rounded-full stat-bar";
             else document.getElementById('bar-anxiety').className = "bg-yellow-500 h-2 rounded-full stat-bar";
-            
+
             // Money Color
             if (gameState.stats.money < 0) document.getElementById('val-money').className = "text-red-400";
             else document.getElementById('val-money').className = "text-white";
@@ -512,11 +534,11 @@
             // --- Enhanced Image Loading Logic ---
             loadingSpinner.classList.remove('hidden');
             imgEl.classList.add('opacity-0');
-            imgEl.src = ""; 
+            imgEl.src = "";
 
             setTimeout(() => {
                 imgEl.src = getImgUrl(scenario.imgKeywords, gameState.currentScenario + 200); // Changed seed
-                
+
                 imgEl.onload = () => {
                     loadingSpinner.classList.add('hidden');
                     imgEl.classList.remove('opacity-0');
@@ -530,7 +552,7 @@
 
             // Reset view
             titleEl.innerText = `${scenario.title}`;
-            
+
             // Show RAI Theme Tag
             raiTagEl.innerText = `💡 RAI Concept: ${scenario.raiTheme}`;
             raiTagEl.classList.remove('hidden');
@@ -544,30 +566,30 @@
             scenario.choices.forEach((choice, index) => {
                 const btn = document.createElement('button');
                 let borderClass = "border-gray-600";
-                
+
                 // Color coding for educational purposes
-                if(choice.type === "risk") { // Unethical/Risk
+                if (choice.type === "risk") { // Unethical/Risk
                     borderClass = "border-red-500 text-red-100 hover:bg-red-900/50";
                 }
-                if(choice.type === "safe") { // Ethical/Responsible
+                if (choice.type === "safe") { // Ethical/Responsible
                     borderClass = "border-green-500 text-green-100 hover:bg-green-900/50";
                 }
-                if(choice.type === "gray") { // Avoidance/Neutral
+                if (choice.type === "gray") { // Avoidance/Neutral
                     borderClass = "border-gray-500 text-gray-200 hover:bg-gray-700/50";
                 }
 
                 btn.className = `w-full text-left p-4 rounded border ${borderClass} bg-[#161b22] btn-choice mb-3 text-sm md:text-base shadow-sm`;
                 btn.innerHTML = `<span class="font-bold mr-2">${choice.text}</span>`;
-                
+
                 // Show cost/gain
-                if(choice.effect.money != 0) {
+                if (choice.effect.money != 0) {
                     const moneyText = choice.effect.money > 0 ? `+${choice.effect.money.toLocaleString()}` : `${choice.effect.money.toLocaleString()}`;
                     const color = choice.effect.money > 0 ? "text-green-400" : "text-red-400";
                     btn.innerHTML += ` <span class="text-xs ${color} float-right mt-1">(${moneyText} ฿)</span>`;
                 }
 
                 btn.onclick = () => selectChoice(choice);
-                
+
                 choicesContainer.appendChild(btn);
             });
         }
@@ -581,7 +603,7 @@
 
             // Clamp Values
             gameState.stats.sanity = Math.min(100, gameState.stats.sanity);
-            gameState.stats.anxiety = Math.max(0, gameState.stats.anxiety); 
+            gameState.stats.anxiety = Math.max(0, gameState.stats.anxiety);
 
             updateUI();
 
@@ -592,8 +614,8 @@
             const resultMsg = document.getElementById('result-message');
             // Add educational feedback styling
             let feedbackColor = "text-blue-200";
-            if(choice.type === "risk") feedbackColor = "text-red-300";
-            if(choice.type === "safe") feedbackColor = "text-green-300";
+            if (choice.type === "risk") feedbackColor = "text-red-300";
+            if (choice.type === "safe") feedbackColor = "text-green-300";
 
             resultMsg.innerHTML = `
             <h3 class="font-bold text-white mb-2 text-lg">ผลลัพธ์:</h3>
@@ -629,7 +651,7 @@
 
         function nextScenario() {
             gameState.currentScenario++;
-            
+
             // Check if End of Game
             if (gameState.currentScenario >= scenarios.length) {
                 showEnding();
@@ -660,10 +682,10 @@
             restartBtn.classList.remove('hidden');
 
             titleEl.innerText = "บทสรุป: คุณคือพลเมืองแบบไหน?";
-            
+
             let endingText = "";
             let endingKeywords = "";
-            
+
             // Evaluated based on Ethics (Sanity) and Digital Literacy (Tech)
             if (gameState.stats.sanity > 70 && gameState.stats.tech > 60) {
                 endingText = "🏆 The AI Guardian (ผู้พิทักษ์จริยธรรม AI)\nคุณคือตัวอย่างของพลเมืองดิจิทัลที่สมบูรณ์แบบ! คุณมีความรู้เท่าทันเทคโนโลยี (High Literacy) และใช้มันอย่างมีคุณธรรม (High Ethics) คุณไม่เพียงแค่เอาตัวรอด แต่ยังช่วยสร้างสังคมที่ AI และมนุษย์อยู่ร่วมกันได้อย่างยุติธรรม";
@@ -680,7 +702,7 @@
             }
 
             descEl.innerText = endingText;
-            
+
             // Set ending image with loading
             loadingSpinner.classList.remove('hidden');
             imgEl.classList.add('opacity-0');
@@ -700,5 +722,16 @@
         updateUI();
 
     </script>
+    <!-- Home Button -->
+    <a href="index.html"
+        class="fixed bottom-4 right-4 z-50 bg-[#0d1117] text-blue-400 border border-blue-500/50 px-4 py-2 rounded font-bold shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:bg-blue-900/50 hover:text-blue-300 transition-all flex items-center gap-2 text-sm cyber-text">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+        HOME
+    </a>
 </body>
+
 </html>

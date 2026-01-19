@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scam Catch - ดักตบมิจ(ฉาชีพ) AI</title>
-    
+
     <!-- Import Google Fonts for Thai support -->
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -18,36 +20,56 @@
         body {
             font-family: 'Sarabun', sans-serif;
         }
+
         /* Custom Animations */
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
+
         .animate-fade-in {
             animation: fadeIn 0.3s ease-out;
         }
+
         @keyframes slideInTop {
-            from { transform: translateY(-20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
+
         .animate-slide-in-top {
             animation: slideInTop 0.4s ease-out;
         }
+
         /* Hide scrollbar */
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
         }
+
         .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
     </style>
 </head>
+
 <body class="bg-slate-900 min-h-screen flex items-center justify-center p-4">
 
     <!-- Phone Mockup Container -->
-    <div class="w-full max-w-md bg-white rounded-[3rem] border-8 border-slate-800 overflow-hidden shadow-2xl relative h-[850px] flex flex-col">
-        
+    <div
+        class="w-full max-w-md bg-white rounded-[3rem] border-8 border-slate-800 overflow-hidden shadow-2xl relative h-[850px] flex flex-col">
+
         <!-- Notch/Status Bar -->
         <div class="bg-slate-800 h-8 w-full flex justify-center items-center relative z-20 shrink-0">
             <div class="w-24 h-5 bg-black rounded-b-xl absolute top-0"></div>
@@ -66,7 +88,8 @@
         </div>
 
         <!-- Home Bar Indicator -->
-        <div class="h-6 w-full bg-white absolute bottom-0 flex justify-center pt-2 pb-1 z-20 rounded-b-[2.5rem] shrink-0">
+        <div
+            class="h-6 w-full bg-white absolute bottom-0 flex justify-center pt-2 pb-1 z-20 rounded-b-[2.5rem] shrink-0">
             <div class="w-32 h-1 bg-slate-300 rounded-full"></div>
         </div>
     </div>
@@ -75,141 +98,141 @@
     <script>
         // --- Data ---
         const scenarios = [
-          {
-            id: 1,
-            type: "video_call",
-            platform: "Video Call",
-            sender: "เพื่อนสนิท (Bestie)",
-            avatarColor: "bg-blue-200",
-            content: "เฮ้ยแก! เรามีปัญหาด่วน แอปธนาคารเข้าไม่ได้เลยอะ ยืมตัง 2,000 ก่อนได้ป่ะ เดี๋ยวคืน!",
-            isScam: true,
-            correctAction: "block",
-            feedbackTitle: "เสียงน่ะใช่ แต่ใจน่ะมิจ!",
-            feedbackDesc: "นี่คือ Deepfake Voice/Face! จุดสังเกตคือ 'Lip Sync' ไม่เนียน และ AI มักจะขอให้ทำธุรกรรมการเงินทันที ถ้าสงสัยให้วางสายแล้วโทรเบอร์จริงกลับไปหาเพื่อนเลย",
-            slang: "Deepfake แบบนี้ ไม่เนียนไปเรียนมาใหม่นะจ๊ะ!",
-            imgSrc: "https://i.ibb.co/zhPCxX1P/no1.jpg"
-          },
-          {
-            id: 2,
-            type: "social_ad",
-            platform: "Instagram Feed",
-            sender: "Fashion_Pro_Max",
-            avatarColor: "bg-pink-200",
-            content: "รับสมัครคนตอบแชท! งานง่ายๆ จิ้มมือถือวันละ 2 ชม. รับ 5,000 บาท การันตีรายได้ ภาพสวยเป๊ะเว่อร์!",
-            isScam: true,
-            correctAction: "block",
-            feedbackTitle: "สวยหล่อแบบไม่มีอยู่จริง",
-            feedbackDesc: "นี่คือ AI Generated Ad เพื่อหลอกลวง (Malicious Ads) สังเกตที่ 'รายได้ Over เกินจริง' และรายละเอียดในภาพเช่น นิ้วมือ หรือตัวหนังสือภาษาต่างดาว",
-            slang: "งานสบายรายได้ดี = มิจฉาชีพ 100%",
-            imgSrc: "https://i.ibb.co/qLh3sb4P/no2.jpg"
-          },
-          {
-            id: 3,
-            type: "phishing_sms",
-            platform: "SMS",
-            sender: "K-Bank-Alert",
-            avatarColor: "bg-green-100",
-            content: "เรียน คุณลูกค้า บัญชีของท่านมีความเสี่ยงถูกระงับ โปรดยืนยันตัวตนด่วนที่ลิงก์: www.kbank-verify-secure.cc",
-            isScam: true,
-            correctAction: "block",
-            feedbackTitle: "ภาษาอย่างตึง แต่ลิงก์อย่างโป๊ะ",
-            feedbackDesc: "นี่คือ AI Enhanced Phishing ภาษาที่ใช้ดูเป็นทางการเพราะใช้ AI เขียน แต่ 'Domain' ของลิงก์ไม่ใช่ของธนาคารจริง ธนาคารไม่มีนโยบายแนบลิงก์มาใน SMS นะ!",
-            slang: "อย่ากดลิงก์มั่ว เดี๋ยวตัวจะวูบ"
-          },
-          {
-            id: 4,
-            type: "chat_msg",
-            platform: "Line Chat",
-            sender: "แม่ (Mom)",
-            avatarColor: "bg-yellow-200",
-            content: "เย็นนี้ลูกจะกลับมากินข้าวไหม? แม่ทำแกงส้มไว้",
-            isScam: false,
-            correctAction: "trust",
-            feedbackTitle: "อันนี้ของจริงจ้า!",
-            feedbackDesc: "ไม่ใช่ทุกอย่างจะเป็นมิจฉาชีพนะ ข้อความนี้เป็นการสนทนาปกติ ไม่มีการเร่งรัดเอาเงินหรือขอข้อมูลส่วนตัว",
-            slang: "รอดตัวไป! อันนี้แม่ของจริง"
-          },
-          {
-            id: 5,
-            type: "chat_msg",
-            platform: "Dating App / DM",
-            sender: "Oppa_Handsome",
-            avatarColor: "bg-purple-200",
-            content: "ที่รักครับ ผมส่งของขวัญราคาแพงไปให้คุณแล้ว แต่ติดศุลกากร ช่วยโอนค่าธรรมเนียม 5,000 ให้หน่อยครับ",
-            isScam: true,
-            correctAction: "block",
-            feedbackTitle: "Romance Scam (หลอกให้รัก)",
-            feedbackDesc: "นี่คือแก๊งหลอกให้รัก! มักใช้รูปคนหน้าตาดี (Profile ปลอม) มาจีบ แล้วอ้างว่าส่งของมาให้แต่ต้องจ่ายภาษี หรือขอยืมเงิน อย่าโอนเด็ดขาด!",
-            slang: "รูปตรงปกแต่จกตา! อย่าหาโอนนะสาว",
-            imgSrc: "https://i.ibb.co/Fq6d2Gfn/no5.jpg"
-          },
-          {
-            id: 6,
-            type: "social_ad",
-            platform: "Facebook Page",
-            sender: "แจก iPhone ฟรีทุกวัน",
-            avatarColor: "bg-orange-200",
-            content: "ฉลองเปิดเพจใหม่! แจก iPhone 15 Pro Max ฟรี 10 เครื่อง แค่พิมพ์ 'สนใจ' และกดลิงก์ยืนยันตัวตนที่ bit.ly/free-iphone-99",
-            isScam: true,
-            correctAction: "block",
-            feedbackTitle: "ของฟรีไม่มีในโลก!",
-            feedbackDesc: "มุกคลาสสิก! หลอกให้ดีใจว่าได้ของฟรี เพื่อขโมยข้อมูลส่วนตัว (Phishing) หรือหลอกให้จ่ายค่าส่งสินค้า",
-            slang: "ของถูกคือของปลอม ของฟรีคือของแถม(ไวรัส)"
-          },
-          {
-            id: 7,
-            type: "chat_msg",
-            platform: "Group Chat",
-            sender: "หัวหน้าห้อง (Leader)",
-            avatarColor: "bg-teal-200",
-            content: "ทุกคนนน อย่าลืมส่งงานครูสมศรีพรุ่งนี้นะ! ใครยังไม่เสร็จรีบปั่นเด้อ เดี๋ยวโดนหักคะแนน",
-            isScam: false,
-            correctAction: "trust",
-            feedbackTitle: "เพื่อนเตือนด้วยความหวังดี",
-            feedbackDesc: "ข้อความแจ้งเตือนเรื่องเรียนจากเพื่อนที่รู้จัก เป็นการสื่อสารปกติ เชื่อถือได้ครับ",
-            slang: "แต้งกิ้วเพื่อนเลิฟ เกือบขิตแล้วไหมล่ะ"
-          },
-          {
-            id: 8,
-            type: "social_ad",
-            platform: "X (Twitter)",
-            sender: "Easy Money 99",
-            avatarColor: "bg-gray-200",
-            content: "รับซื้อบัญชีธนาคาร ให้ราคาดี 3,000 - 5,000 บาท/บัญชี ไม่ผิดกฎหมาย แค่เอาไปหมุนเงินในเว็บเกม #งานออนไลน์ #หาเงิน",
-            isScam: true,
-            correctAction: "block",
-            feedbackTitle: "บัญชีม้า = คุก!",
-            feedbackDesc: "การรับจ้างเปิดบัญชีหรือขายบัญชีธนาคารให้คนอื่นผิดกฎหมายอาญา! อาจติดคุกแทนโจรได้เลย อย่าเห็นแก่เงินเล็กน้อย",
-            slang: "ขายบัญชีวันนี้ พรุ่งนี้นอนคุกนะจ๊ะ"
-          },
-          {
-            id: 9,
-            type: "video_call",
-            platform: "Video Call",
-            sender: "ป้าแต๋ว (Auntie)",
-            avatarColor: "bg-indigo-200",
-            content: "ลูกเอ๊ย ป้าส่งมะม่วงกวนไปให้แล้วนะ ได้รับหรือยังลูก? ถ้ายังไม่ถึงบอกป้านะ",
-            isScam: false,
-            correctAction: "trust",
-            feedbackTitle: "ป้าตัวจริงเสียงจริง",
-            feedbackDesc: "การวิดีโอคอลคุยเรื่องทั่วไป ไม่มีการเร่งรัดเอาเงิน เป็นการติดต่อปกติจากญาติผู้ใหญ่",
-            slang: "นี่แหละของแทร่! มะม่วงกวนป้าอร่อยสุด",
-            imgSrc: "https://i.ibb.co/WvMGc3KB/no9.jpg"
-          },
-          {
-            id: 10,
-            type: "video_call",
-            platform: "Video Call",
-            sender: "สภ. เมือง...",
-            avatarColor: "bg-slate-300",
-            content: "ผมร้อยเวรสมชาย คุณมีพัสดุตกค้างเกี่ยวข้องกับยาเสพติด ให้โอนเงินตรวจสอบบัญชีด่วน ไม่งั้นจะออกหมายจับ",
-            isScam: true,
-            correctAction: "block",
-            feedbackTitle: "แก๊งคอลเซ็นเตอร์!",
-            feedbackDesc: "ตำรวจจริงจะไม่มีการโทรมาแจ้งข้อหาผ่านไลน์ หรือให้โอนเงินเพื่อตรวจสอบเด็ดขาด! ถ้ามีหมายเรียกต้องส่งเป็นเอกสารเท่านั้น",
-            slang: "ตำรวจจริงไม่โทรมาขอตังค์ทางไลน์นะจ๊ะ",
-            imgSrc: "https://i.ibb.co/vvRnXhx1/no10.jpg"
-          }
+            {
+                id: 1,
+                type: "video_call",
+                platform: "Video Call",
+                sender: "เพื่อนสนิท (Bestie)",
+                avatarColor: "bg-blue-200",
+                content: "เฮ้ยแก! เรามีปัญหาด่วน แอปธนาคารเข้าไม่ได้เลยอะ ยืมตัง 2,000 ก่อนได้ป่ะ เดี๋ยวคืน!",
+                isScam: true,
+                correctAction: "block",
+                feedbackTitle: "เสียงน่ะใช่ แต่ใจน่ะมิจ!",
+                feedbackDesc: "นี่คือ Deepfake Voice/Face! จุดสังเกตคือ 'Lip Sync' ไม่เนียน และ AI มักจะขอให้ทำธุรกรรมการเงินทันที ถ้าสงสัยให้วางสายแล้วโทรเบอร์จริงกลับไปหาเพื่อนเลย",
+                slang: "Deepfake แบบนี้ ไม่เนียนไปเรียนมาใหม่นะจ๊ะ!",
+                imgSrc: "https://i.ibb.co/zhPCxX1P/no1.jpg"
+            },
+            {
+                id: 2,
+                type: "social_ad",
+                platform: "Instagram Feed",
+                sender: "Fashion_Pro_Max",
+                avatarColor: "bg-pink-200",
+                content: "รับสมัครคนตอบแชท! งานง่ายๆ จิ้มมือถือวันละ 2 ชม. รับ 5,000 บาท การันตีรายได้ ภาพสวยเป๊ะเว่อร์!",
+                isScam: true,
+                correctAction: "block",
+                feedbackTitle: "สวยหล่อแบบไม่มีอยู่จริง",
+                feedbackDesc: "นี่คือ AI Generated Ad เพื่อหลอกลวง (Malicious Ads) สังเกตที่ 'รายได้ Over เกินจริง' และรายละเอียดในภาพเช่น นิ้วมือ หรือตัวหนังสือภาษาต่างดาว",
+                slang: "งานสบายรายได้ดี = มิจฉาชีพ 100%",
+                imgSrc: "https://i.ibb.co/qLh3sb4P/no2.jpg"
+            },
+            {
+                id: 3,
+                type: "phishing_sms",
+                platform: "SMS",
+                sender: "K-Bank-Alert",
+                avatarColor: "bg-green-100",
+                content: "เรียน คุณลูกค้า บัญชีของท่านมีความเสี่ยงถูกระงับ โปรดยืนยันตัวตนด่วนที่ลิงก์: www.kbank-verify-secure.cc",
+                isScam: true,
+                correctAction: "block",
+                feedbackTitle: "ภาษาอย่างตึง แต่ลิงก์อย่างโป๊ะ",
+                feedbackDesc: "นี่คือ AI Enhanced Phishing ภาษาที่ใช้ดูเป็นทางการเพราะใช้ AI เขียน แต่ 'Domain' ของลิงก์ไม่ใช่ของธนาคารจริง ธนาคารไม่มีนโยบายแนบลิงก์มาใน SMS นะ!",
+                slang: "อย่ากดลิงก์มั่ว เดี๋ยวตัวจะวูบ"
+            },
+            {
+                id: 4,
+                type: "chat_msg",
+                platform: "Line Chat",
+                sender: "แม่ (Mom)",
+                avatarColor: "bg-yellow-200",
+                content: "เย็นนี้ลูกจะกลับมากินข้าวไหม? แม่ทำแกงส้มไว้",
+                isScam: false,
+                correctAction: "trust",
+                feedbackTitle: "อันนี้ของจริงจ้า!",
+                feedbackDesc: "ไม่ใช่ทุกอย่างจะเป็นมิจฉาชีพนะ ข้อความนี้เป็นการสนทนาปกติ ไม่มีการเร่งรัดเอาเงินหรือขอข้อมูลส่วนตัว",
+                slang: "รอดตัวไป! อันนี้แม่ของจริง"
+            },
+            {
+                id: 5,
+                type: "chat_msg",
+                platform: "Dating App / DM",
+                sender: "Oppa_Handsome",
+                avatarColor: "bg-purple-200",
+                content: "ที่รักครับ ผมส่งของขวัญราคาแพงไปให้คุณแล้ว แต่ติดศุลกากร ช่วยโอนค่าธรรมเนียม 5,000 ให้หน่อยครับ",
+                isScam: true,
+                correctAction: "block",
+                feedbackTitle: "Romance Scam (หลอกให้รัก)",
+                feedbackDesc: "นี่คือแก๊งหลอกให้รัก! มักใช้รูปคนหน้าตาดี (Profile ปลอม) มาจีบ แล้วอ้างว่าส่งของมาให้แต่ต้องจ่ายภาษี หรือขอยืมเงิน อย่าโอนเด็ดขาด!",
+                slang: "รูปตรงปกแต่จกตา! อย่าหาโอนนะสาว",
+                imgSrc: "https://i.ibb.co/Fq6d2Gfn/no5.jpg"
+            },
+            {
+                id: 6,
+                type: "social_ad",
+                platform: "Facebook Page",
+                sender: "แจก iPhone ฟรีทุกวัน",
+                avatarColor: "bg-orange-200",
+                content: "ฉลองเปิดเพจใหม่! แจก iPhone 15 Pro Max ฟรี 10 เครื่อง แค่พิมพ์ 'สนใจ' และกดลิงก์ยืนยันตัวตนที่ bit.ly/free-iphone-99",
+                isScam: true,
+                correctAction: "block",
+                feedbackTitle: "ของฟรีไม่มีในโลก!",
+                feedbackDesc: "มุกคลาสสิก! หลอกให้ดีใจว่าได้ของฟรี เพื่อขโมยข้อมูลส่วนตัว (Phishing) หรือหลอกให้จ่ายค่าส่งสินค้า",
+                slang: "ของถูกคือของปลอม ของฟรีคือของแถม(ไวรัส)"
+            },
+            {
+                id: 7,
+                type: "chat_msg",
+                platform: "Group Chat",
+                sender: "หัวหน้าห้อง (Leader)",
+                avatarColor: "bg-teal-200",
+                content: "ทุกคนนน อย่าลืมส่งงานครูสมศรีพรุ่งนี้นะ! ใครยังไม่เสร็จรีบปั่นเด้อ เดี๋ยวโดนหักคะแนน",
+                isScam: false,
+                correctAction: "trust",
+                feedbackTitle: "เพื่อนเตือนด้วยความหวังดี",
+                feedbackDesc: "ข้อความแจ้งเตือนเรื่องเรียนจากเพื่อนที่รู้จัก เป็นการสื่อสารปกติ เชื่อถือได้ครับ",
+                slang: "แต้งกิ้วเพื่อนเลิฟ เกือบขิตแล้วไหมล่ะ"
+            },
+            {
+                id: 8,
+                type: "social_ad",
+                platform: "X (Twitter)",
+                sender: "Easy Money 99",
+                avatarColor: "bg-gray-200",
+                content: "รับซื้อบัญชีธนาคาร ให้ราคาดี 3,000 - 5,000 บาท/บัญชี ไม่ผิดกฎหมาย แค่เอาไปหมุนเงินในเว็บเกม #งานออนไลน์ #หาเงิน",
+                isScam: true,
+                correctAction: "block",
+                feedbackTitle: "บัญชีม้า = คุก!",
+                feedbackDesc: "การรับจ้างเปิดบัญชีหรือขายบัญชีธนาคารให้คนอื่นผิดกฎหมายอาญา! อาจติดคุกแทนโจรได้เลย อย่าเห็นแก่เงินเล็กน้อย",
+                slang: "ขายบัญชีวันนี้ พรุ่งนี้นอนคุกนะจ๊ะ"
+            },
+            {
+                id: 9,
+                type: "video_call",
+                platform: "Video Call",
+                sender: "ป้าแต๋ว (Auntie)",
+                avatarColor: "bg-indigo-200",
+                content: "ลูกเอ๊ย ป้าส่งมะม่วงกวนไปให้แล้วนะ ได้รับหรือยังลูก? ถ้ายังไม่ถึงบอกป้านะ",
+                isScam: false,
+                correctAction: "trust",
+                feedbackTitle: "ป้าตัวจริงเสียงจริง",
+                feedbackDesc: "การวิดีโอคอลคุยเรื่องทั่วไป ไม่มีการเร่งรัดเอาเงิน เป็นการติดต่อปกติจากญาติผู้ใหญ่",
+                slang: "นี่แหละของแทร่! มะม่วงกวนป้าอร่อยสุด",
+                imgSrc: "https://i.ibb.co/WvMGc3KB/no9.jpg"
+            },
+            {
+                id: 10,
+                type: "video_call",
+                platform: "Video Call",
+                sender: "สภ. เมือง...",
+                avatarColor: "bg-slate-300",
+                content: "ผมร้อยเวรสมชาย คุณมีพัสดุตกค้างเกี่ยวข้องกับยาเสพติด ให้โอนเงินตรวจสอบบัญชีด่วน ไม่งั้นจะออกหมายจับ",
+                isScam: true,
+                correctAction: "block",
+                feedbackTitle: "แก๊งคอลเซ็นเตอร์!",
+                feedbackDesc: "ตำรวจจริงจะไม่มีการโทรมาแจ้งข้อหาผ่านไลน์ หรือให้โอนเงินเพื่อตรวจสอบเด็ดขาด! ถ้ามีหมายเรียกต้องส่งเป็นเอกสารเท่านั้น",
+                slang: "ตำรวจจริงไม่โทรมาขอตังค์ทางไลน์นะจ๊ะ",
+                imgSrc: "https://i.ibb.co/vvRnXhx1/no10.jpg"
+            }
         ];
 
         // --- State ---
@@ -233,7 +256,7 @@
         function handleDecision(action) {
             const currentScenario = scenarios[currentScenarioIndex];
             const isCorrect = action === currentScenario.correctAction;
-            
+
             feedback = {
                 isCorrect: isCorrect,
                 title: isCorrect ? "เฉียบมาก!" : "โดนแกงแล้ว!",
@@ -432,9 +455,9 @@
 
             } else if (gameState === 'playing' || gameState === 'feedback') {
                 const current = scenarios[currentScenarioIndex];
-                
+
                 html += `<div class="p-6 flex flex-col flex-1 h-full">`;
-                
+
                 // Visual / Content Area
                 html += `<div class="flex-1 flex flex-col items-center justify-center space-y-6 mb-8">`;
 
@@ -468,7 +491,7 @@
                         ${renderInterface(current)}
                     </div>`;
                 }
-                
+
                 html += `</div>`; // End Visual Area
 
                 // Buttons
@@ -483,7 +506,7 @@
                         เชื่อใจ
                     </button>
                 </div>`;
-                
+
                 html += `</div>`; // End Main Playing Div
 
                 // Feedback Overlay
@@ -540,7 +563,7 @@
             }
 
             container.innerHTML = html;
-            
+
             // Re-initialize icons
             lucide.createIcons();
             updateClock();
@@ -558,5 +581,12 @@
         render();
 
     </script>
+    <!-- Home Button -->
+    <a href="index.html"
+        class="fixed bottom-6 right-6 z-50 bg-white/10 text-white border border-white/20 px-4 py-3 rounded-2xl font-bold shadow-2xl hover:bg-white hover:text-slate-900 transition-all flex items-center gap-2 backdrop-blur-md">
+        <i data-lucide="home" class="w-5 h-5"></i>
+        <span class="text-sm">HOME</span>
+    </a>
 </body>
+
 </html>

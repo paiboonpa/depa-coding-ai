@@ -1,48 +1,64 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prompt Master: Teen Edition</title>
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+
     <!-- Google Fonts (Prompt for Thai) -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
         body {
             font-family: 'Prompt', sans-serif;
-            background-color: #020617; /* slate-950 */
+            background-color: #020617;
+            /* slate-950 */
             color: white;
         }
+
         .custom-scrollbar::-webkit-scrollbar {
             width: 8px;
         }
+
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: #1e293b; 
+            background: #1e293b;
         }
+
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #475569; 
+            background: #475569;
             border-radius: 4px;
         }
+
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #64748b; 
+            background: #64748b;
         }
+
         /* Animations */
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
+
         .animate-fade-in {
             animation: fadeIn 0.5s ease-out forwards;
         }
     </style>
 </head>
+
 <body class="min-h-screen flex items-center justify-center p-4">
 
     <div id="app" class="w-full max-w-3xl">
@@ -51,7 +67,7 @@
 
     <script>
         // --- Data & State ---
-        const levels = [
+        const allLevels = [
             { id: 1, title: "พี่สอนน้อง", mission: "อธิบายเรื่อง 'การสังเคราะห์แสง' ให้เด็กอนุบาลฟัง", constraints: "ห้ามใช้คำว่า 'พืช', 'สารเคมี' หรือ 'ออกซิเจน' (เน้นเปรียบเทียบกับของกิน)", icon: "🌱" },
             { id: 2, title: "เนียนกริบ", mission: "เขียนข้อความขอโทษครูที่ส่งงานสาย เพราะ 'แมวพิมพ์คอมพิวเตอร์พัง'", constraints: "ต้องดูสุภาพ น่าสงสาร แต่ห้ามดูเหมือนโกหกจนเกินไป (ทำให้เชื่อได้)", icon: "😿" },
             { id: 3, title: "นักจัดตาราง", mission: "วางตารางติวสอบ 5 วิชาภายใน 2 วันก่อนสอบ", constraints: "ต้องมีเวลาพักกินชานมไข่มุก และเวลานอนที่เพียงพอ (ระบุเวลาชัดเจน)", icon: "📅" },
@@ -64,6 +80,8 @@
             { id: 10, title: "นักสร้างโลก", mission: "ออกแบบ 'โรงเรียนในฝัน' ที่ไม่มีการสอบและไม่มีการบ้าน", constraints: "ต้องอธิบายว่านักเรียนจะวัดความรู้กันยังไง (ตอบเป็นข้อๆ)", icon: "🏫" }
         ];
 
+        let levels = [];
+
         let state = {
             screen: 'intro', // intro, playing, result, finished
             currentLevelIndex: 0,
@@ -73,7 +91,9 @@
             loading: false
         };
 
-        const apiKey = "AIzaSyBDmkTzMimqBgPclBsuVvsqLoHOojS6i2s"; // API Key will be injected by the environment
+        // Try to get key from injected environment, otherwise fallback (or fail)
+        const apiKey = window.ENV?.GEMINI_KEY || "YOUR_FALLBACK_KEY_OR_ERROR";
+
 
         // --- Render Functions ---
 
@@ -93,7 +113,7 @@
 
             // Re-initialize icons
             lucide.createIcons();
-            
+
             // Re-attach event listeners (since we cleared innerHTML)
             attachListeners();
         }
@@ -136,7 +156,7 @@
 
         function renderPlaying() {
             const level = levels[state.currentLevelIndex];
-            
+
             return `
                 <div class="animate-fade-in">
                     <!-- Header -->
@@ -193,10 +213,10 @@
                         ></textarea>
                         
                         <button id="btn-submit" class="w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:shadow-lg hover:shadow-purple-500/25 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
-                            ${state.loading 
-                                ? `<div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> AI กำลังตรวจ...` 
-                                : `ส่ง Prompt ให้ตรวจ <i data-lucide="send" class="w-5 h-5"></i>`
-                            }
+                            ${state.loading
+                    ? `<div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> AI กำลังตรวจ...`
+                    : `ส่ง Prompt ให้ตรวจ <i data-lucide="send" class="w-5 h-5"></i>`
+                }
                         </button>
                     </div>
                 </div>
@@ -333,6 +353,9 @@
         // --- Logic ---
 
         function startGame() {
+            // Randomly select 5 levels from the pool
+            levels = [...allLevels].sort(() => 0.5 - Math.random()).slice(0, 5);
+
             state.currentLevelIndex = 0;
             state.totalScore = 0;
             state.history = [];
@@ -351,11 +374,11 @@
             render(); // Re-render to show loading state
 
             const currentLevel = levels[state.currentLevelIndex];
-            
+
             // Note: In a real HTML file, keep your API Key secret. 
             // For this generated file, it relies on the user providing one or handling it backend.
             // Since this is a demo running in a controlled environment, we use the injected key.
-            
+
             const systemPrompt = `
                 You are a strict but humorous judge for a "Prompt Engineering Game" called "Prompt Master: Teen Edition". 
                 Mission: "${currentLevel.mission}"
@@ -437,5 +460,12 @@
         render();
 
     </script>
+    <!-- Home Button -->
+    <a href="index.html"
+        class="fixed bottom-4 right-4 z-50 bg-slate-800/80 text-purple-400 border border-purple-500/30 px-6 py-3 rounded-full font-bold shadow-lg hover:bg-purple-600 hover:text-white transition-all flex items-center gap-2 text-sm backdrop-blur-sm">
+        <i data-lucide="home" class="w-4 h-4"></i>
+        HOME
+    </a>
 </body>
+
 </html>
